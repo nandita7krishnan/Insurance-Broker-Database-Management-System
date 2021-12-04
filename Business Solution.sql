@@ -308,42 +308,6 @@ INSERT INTO PAYMENTDETAIL VALUES(109,11109,TO_DATE('11-12-2020','MM-DD-YYYY'),18
 INSERT INTO PAYMENTDETAIL VALUES(110,11110,TO_DATE('06-03-2021','MM-DD-YYYY'),9000,'DEBIT','Kail','1209-4444-2390-7865','06907',TO_DATE('06-19-2023','MM-DD-YYYY'),'American Express','BOFA','544FERF','43974835',TO_DATE('03-29-2021','MM-DD-YYYY'),'WFR','EHW','Done');
 
 
-SELECT CoverageName,CoverageGroup,count(DriverID) as 'Policy Holders' FROM COVERAGE
-JOIN POLICYCOVERAGE ON POLICYCOVERAGE.POLICYID = COVERAGE.POLICYID
-JOIN COVERAGE ON COVERAGE.COVERAGEID = POLICYCOVERAGE.COVERAGEID
-ORDER BY COUNT(DRIVERID);
-
-SELECT CoverageName,CoverageGroup,LICENSEISSUEDSTATE,count(DriverID) as 'Policy Holders By State' FROM COVERAGE
-JOIN POLICYCOVERAGE ON POLICYCOVERAGE.POLICYID = COVERAGE.POLICYID
-JOIN COVERAGE ON COVERAGE.COVERAGEID = POLICYCOVERAGE.COVERAGEID
-ORDER BY COUNT(DRIVERID);
-
-
-SELECT SUM(MILEAGE),MAKE,MODEL,MIN(MinimumPayment) as 'Expected Cost of Policy' FROM VEHICLE
-JOIN BILL ON BILL.POLICYID = VEHICLE.POLICYID
-GROUP BY MAKE,MODEL;
-
-SELECT COVERAGENAME,COVERAGEGROUP,COUNT(GRIEVANCE) FROM CUSTOMERSUPPORT
-JOIN DRIVER ON DRIVER.DRIVERID = CUSTOMERSUPPORT.DRIVERID
-JOIN POLICYCOVERAGE ON POLICYCOVERAGE.POLICYID = COVERAGE.POLICYID
-JOIN COVERAGE ON COVERAGE.COVERAGEID = POLICYCOVERAGE.COVERAGEID
-GROUP BY COVERAGEGROUP;
-
-SELECT PAYMENTID,BILLID,
-CASE UPPER(PAYMENTMETHOD) WHEN 'CASH' THEN AMOUNT
-       WHEN 'DEBIT' THEN AMOUNT + 0.1 * AMOUNT 
-       WHEN 'CREDIT' THEN AMOUNT + 0.2 * AMOUNT 
-       END
-FROM PAYMENTDETAIL;
-
-SELECT * from employees;
-
-SELECT EMPLOYEE_ID,FIRST_NAME FROM EMPLOYEES
-WHERE EMPLOYEE_ID=ANY(SELECT employee_id FROM employees WHERE SALARY>3000);
-
-SELECT EMPLOYEE_ID,FIRST_NAME FROM EMPLOYEES
-WHERE SALARY>3000;
-
 /*
 Business Problem - 1
 When a customer approaches our insurance agent to request for a new or updated policy, it is good business sense to show them a template in which they can contrast and compare policies on their own. As customers are mostly concerned about the pricing of the policies, this report helps the agent in quickly zeroing down to what best price scenario or rates will be accepted by the customer. As there are many variables pertaining to picking an insurance policy, the best way to tackle this is to divide and conquer the different factors according to what a customer is looking for. This helps in automating the recommendation process.
